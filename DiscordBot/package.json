@@ -1,0 +1,11 @@
+{
+    "name": "enicarthage-press-bot",
+    "version": "1.0.0",
+    "description": "Our First Discord Bot",
+    "main": "bot.js",
+    "author": "BlackGhost13",
+    "dependencies": {
+        "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+        "winston": "^3.2.1"
+    }
+}
