@@ -1,2 +1,2 @@
-web: npm-start
-worker: node ./DiscordBot/index.js
+web: npm start
+worker: node index.js
