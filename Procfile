@@ -1,2 +1,2 @@
-A new file 
-A test
+web: npm-start
+worker: node ./DiscordBot/index.js
