@@ -3,8 +3,19 @@ const Discord = require('discord.js');
 // Create an instance of a Discord client
 const client = new Discord.Client();
 
+const {
+    prefix,
+    token,
+} = require('./config.json');
+
+
+const ytdl = require('ytdl-core');
+const queue = new Map();
+
+
+
 // Log our bot in using the token from https://discordapp.com/developers/applications/me
-client.login('NjU1ODUzMTMyMzI4NDY4NTEw.Xfd_hA.idmQ8yVMlKwdzhxRdUTKkt_jhaQ');
+client.login('NjU1ODUzMTMyMzI4NDY4NTEw.XfetdA.5UA-iQRO4-JqgmftLlD8ayllfsU');
 
 /**
  * The ready event is vital, it means that only _after_ this will your bot start reacting to information
@@ -13,6 +24,14 @@ client.login('NjU1ODUzMTMyMzI4NDY4NTEw.Xfd_hA.idmQ8yVMlKwdzhxRdUTKkt_jhaQ');
 client.on('ready', () => {
     console.log("Connected as " + client.user.tag)
 })
+
+client.once('reconnecting', () => {
+    console.log('Reconnecting!');
+});
+
+client.once('disconnect', () => {
+    console.log('Disconnect!');
+});
 
 
 client.on('ready', () => {
@@ -30,8 +49,8 @@ client.on('ready', () => {
     var generalChannel = client.channels.get("655791617499856899") // Replace with known channel ID
     generalChannel.send("Hello, world! We meet again.")
 
-    // Set bot status to: "Playing with JavaScript"
-    client.user.setActivity("with my own code ( ͡° ͜ʖ ͡°)")
+    // Set bot status to: "Playing with something"
+    client.user.setActivity("( ͡° ͜ʖ ͡°)")
 
     // Alternatively, you can set the activity to any of the following:
     // PLAYING, STREAMING, LISTENING, WATCHING
@@ -45,12 +64,16 @@ client.on('message', (receivedMessage) => {
         return
     }
 
+    const serverQueue = queue.get(receivedMessage.guild.id);
+
 
 
     if (receivedMessage.content.startsWith("!")) {
-        processCommand(receivedMessage)
+        processCommand(receivedMessage, serverQueue)
         console.log("Responding to people")
     }
+
+    if (!receivedMessage.content.startsWith(prefix)) return;
 
     // You can copy/paste the actual unicode emoji in the code (not _every_ unicode emoji works)
     receivedMessage.react("👍")
@@ -72,8 +95,8 @@ client.on('message', (receivedMessage) => {
 })
 
 // To play a file, we need to give an absolute path to it
-/*
-const dispatcher = connection.playFile('C:/Users/Black/DiscordBot/music/slaveKnightGael.mp3');
+
+/*const dispatcher = connection.playFile('C:/Users/Black/DiscordBot/music/slaveKnightGael.mp3');
 
 dispatcher.on('end', () => {
     // The song has finished
@@ -92,9 +115,13 @@ console.log(dispatcher.time); // The time in milliseconds that the stream dispat
 dispatcher.pause(); // Pause the stream
 dispatcher.resume(); // Carry on playing
 
-dispatcher.end(); // End the dispatcher, emits 'end' event
-*/
-function processCommand(receivedMessage) {
+dispatcher.end(); // End the dispatcher, emits 'end' event*/
+
+
+
+
+
+function processCommand(receivedMessage, serverQueue) {
     let fullCommand = receivedMessage.content.substr(1) // Remove the leading exclamation mark
     let splitCommand = fullCommand.split(" ") // Split the message up in to pieces for each space
     let primaryCommand = splitCommand[0] // The first word directly after the exclamation is the command
@@ -108,8 +135,9 @@ function processCommand(receivedMessage) {
     } else if (primaryCommand == "multiply") {
         multiplyCommand(arguments, receivedMessage)
     } else if (primaryCommand == 'join') {
-
         joinCommand(arguments, receivedMessage)
+    } else if (primaryCommand == 'play') {
+        playCommand(arguments, receivedMessage, serverQueue)
     } else {
         receivedMessage.channel.send("I don't understand the command. Try `!help` or `!multiply`")
     }
@@ -120,6 +148,7 @@ function processCommand(receivedMessage) {
 function helpCommand(arguments, receivedMessage) {
     if (arguments.length > 0) {
         receivedMessage.channel.send("It looks like you might need help with " + arguments)
+
     } else {
         receivedMessage.channel.send("I'm not sure what you need help with. Try `!help [topic]`")
     }
@@ -150,4 +179,109 @@ function joinCommand(arguments, receivedMessage) {
     } else {
         receivedMessage.reply('You need to join a voice channel first!');
     }
+}
+
+function playCommand(arguments, receivedMessage, serverQueue) {
+    if (arguments.length > 0) {
+        joinCommand(arguments, "join")
+
+
+
+        if (receivedMessage.content.startsWith(`${prefix}play`)) {
+            execute(receivedMessage, serverQueue);
+            return;
+        } else if (receivedMessage.content.startsWith(`${prefix}skip`)) {
+            skip(receivedMessage, serverQueue);
+            return;
+        } else if (receivedMessage.content.startsWith(`${prefix}stop`)) {
+            stop(receivedMessage, serverQueue);
+            return;
+        }
+
+    } else {
+        receivedMessage.channel.send("I did not understand. Try `!play [music]`")
+    }
+
+}
+
+async function execute(message, serverQueue) {
+    const args = message.content.split(' ');
+
+    const voiceChannel = message.member.voiceChannel;
+    if (!voiceChannel) return message.channel.send('You need to be in a voice channel to play music!');
+    const permissions = voiceChannel.permissionsFor(message.client.user);
+    if (!permissions.has('CONNECT') || !permissions.has('SPEAK')) {
+        return message.channel.send('I need the permissions to join and speak in your voice channel!');
+    }
+
+    const songInfo = await ytdl.getInfo(args[1]);
+    const song = {
+        title: songInfo.title,
+        url: songInfo.video_url,
+    };
+
+    message.channel.send("Going to play " + song.title)
+
+    if (!serverQueue) {
+        const queueContruct = {
+            textChannel: message.channel,
+            voiceChannel: voiceChannel,
+            connection: null,
+            songs: [],
+            volume: 5,
+            playing: true,
+        };
+
+        queue.set(message.guild.id, queueContruct);
+
+        queueContruct.songs.push(song);
+
+        try {
+            var connection = await voiceChannel.join();
+            queueContruct.connection = connection;
+            play(message.guild, queueContruct.songs[0]);
+        } catch (err) {
+            console.log(err);
+            queue.delete(message.guild.id);
+            return message.channel.send(err);
+        }
+    } else {
+        serverQueue.songs.push(song);
+        console.log(serverQueue.songs);
+        return message.channel.send(`${song.title} has been added to the queue!`);
+    }
+
+}
+
+function skip(message, serverQueue) {
+    if (!message.member.voiceChannel) return message.channel.send('You have to be in a voice channel to stop the music!');
+    if (!serverQueue) return message.channel.send('There is no song that I could skip!');
+    serverQueue.connection.dispatcher.end();
+}
+
+function stop(message, serverQueue) {
+    if (!message.member.voiceChannel) return message.channel.send('You have to be in a voice channel to stop the music!');
+    serverQueue.songs = [];
+    serverQueue.connection.dispatcher.end();
+}
+
+function play(guild, song) {
+    const serverQueue = queue.get(guild.id);
+
+    if (!song) {
+        serverQueue.voiceChannel.leave();
+        queue.delete(guild.id);
+        return;
+    }
+
+    const dispatcher = serverQueue.connection.playStream(ytdl(song.url))
+        .on('end', () => {
+            console.log('Music ended!');
+            serverQueue.songs.shift();
+            play(guild, serverQueue.songs[0]);
+        })
+        .on('error', error => {
+            console.error(error);
+        });
+    dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 }
