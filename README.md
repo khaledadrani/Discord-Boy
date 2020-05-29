@@ -1,4 +1,4 @@
-# EnicarthagePressRepo
+# Custom Discord Bot
 A repository for  Enicarthage Press Discord Server and possibly other technical stuff
 
 This Discord Bot Code is deprecated. It needs more work. 
