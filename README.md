@@ -1,5 +1,6 @@
 # Custom Discord Bot
-A repository for  Enicarthage Press Discord Server and possibly other technical stuff
+This repository started out as a repository for  Enicarthage Press Discord Server and possibly other technical stuff.
+Now I'm thinking of expanding it.
 
 This Discord Bot Code is deprecated. It needs more work. 
 
