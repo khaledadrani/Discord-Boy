@@ -13,3 +13,6 @@ What I want to do is:
 
 I am reworking the code of the Discord Bot to be cleaner and capable of satisfying all basic needs for a discord server.
 
+
+https://discord.com/oauth2/authorize?client_id=771156220530786324&scope=bot
+
