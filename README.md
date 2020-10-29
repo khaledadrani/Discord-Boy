@@ -1,4 +1,4 @@
-# Custom Discord Bot
+# Discord Boy
 This repository started out as a repository for  Enicarthage Press Discord Server and possibly other technical stuff.
 Now I'm thinking of expanding it.
 
@@ -8,11 +8,13 @@ What I want to do is:
 
 - Add more functionalities
 - Why not implement some AI? or make it a smart chat bot? (if possible)
-- Deploy it to Heroku
+- Deploy it to Heroku (DONE)
 
+# Update 10/29/2020
+Finally we have deployed the bot successfully on heroku. 
 
-I am reworking the code of the Discord Bot to be cleaner and capable of satisfying all basic needs for a discord server.
+This readme will be updated once per week. Of course, this project requires documentation but now let me enjoy my success!
 
-
-https://discord.com/oauth2/authorize?client_id=771156220530786324&scope=bot
+# To authorize your bot on a server
+You DONT need ANY logins in your site. If you want your bot to be invited with admin use this link and paste it in your browser https://discord.com/api/oauth2/authorize?client_id=YOUR-BOTS-ID&permissions=8&scope=bot
 
