@@ -1,0 +1,32 @@
+{
+  "name": "discord-boy",
+  "version": "1.1.0",
+  "description": "let's make our discord chat bot actually work!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/bot.js",
+    "dev": "nodemon ./src/bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KhaledAdrani1997/Discord-Boy.git"
+  },
+  "keywords": [
+    "javascript",
+    "node",
+    "nodejs",
+    "chatbot",
+    "discord"
+  ],
+  "author": "Khaled Adrani",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KhaledAdrani1997/Discord-Boy/issues"
+  },
+  "homepage": "https://github.com/KhaledAdrani1997/Discord-Boy#readme",
+  "dependencies": {
+    "discord.js": "^12.4.1",
+    "dotenv": "^8.2.0"
+  }
+}
