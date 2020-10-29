@@ -1,5 +1,4 @@
 require('dotenv').config();
-const config = require('../config.json')
 const { Client, WebhookClient} = require('discord.js');
 //const {help_CMD, kick_CMD,ban_CMD, multiply_CMD} = require('./commands');
 const commands = require('./commands');
@@ -11,7 +10,7 @@ const webhookClient = new WebhookClient(
     process.env.WEBHOOK_ID,
     process.env.WEBHOOK_TOKEN
 ); 
-const PREFIX = "!";
+const PREFIX = process.env.PREFIX;
 //the client of discord, we will use it to interact
 /*the client name might be confusing but it is in fact the bot
 */

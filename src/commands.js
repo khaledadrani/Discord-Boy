@@ -62,7 +62,7 @@ multiply_CMD = (message,args) => {
 
            
 
-module.exports = { join_CMD,
+module.exports = { 
     multiply_CMD, 
     help_CMD, 
     ban_CMD,
