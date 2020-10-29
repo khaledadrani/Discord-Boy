@@ -15,6 +15,8 @@ const PREFIX = "!";
 //the client of discord, we will use it to interact
 /*the client name might be confusing but it is in fact the bot
 */
+
+
 client.login(process.env.DISCORDBOT_JS_TOKEN)
 //log the bot into the server
 
@@ -104,6 +106,7 @@ client.on('messageReactionAdd',(reaction,user)=>{
         }
     }
 });
+
 
 
 
