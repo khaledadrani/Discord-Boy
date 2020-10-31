@@ -1,41 +1,49 @@
-require('dotenv').config();
+
+process.on('unhandledRejection', (reason) => { 
+  console.log('Unhandled Rejection was found.')
+  console.error(reason);
+  process.exit(1);
+});
+
+try {
+    console.log(require.resolve("discord.js"));
+} catch(e) {
+    console.log(e.stack);
+	console.log(process.version);
+	console.log("Please run npm install and ensure it passes with no errors!"); // if there is an error, tell to install dependencies.
+	process.exit();
+}
+
+ 
+
 const { Client, WebhookClient} = require('discord.js');
 //const {help_CMD, kick_CMD,ban_CMD, multiply_CMD} = require('./commands');
 const commands = require('./commands');
+const config = require('./config');
+
 const client = new Client({
     partials:['MESSAGE','REACTION']
 });
 
 const webhookClient = new WebhookClient(
-    process.env.WEBHOOK_ID,
-    process.env.WEBHOOK_TOKEN
+    config.webhook_id,
+    config.webhook_token
 ); 
-const PREFIX = process.env.PREFIX;
-//the client of discord, we will use it to interact
-/*the client name might be confusing but it is in fact the bot
-*/
+const PREFIX = config.prefix;
 
 
-client.login(process.env.DISCORDBOT_JS_TOKEN)
+client.login(config.bot_token)
 //log the bot into the server
 
 
 client.on('ready',()=>{
     console.log('The bot has logged in');
     console.log(`${client.user.username}`)
-     // Set bot status to: "Playing with something"
     client.user.setActivity("( ͡° ͜ʖ ͡°)")
-    // var generalChannel = client.channels.cache.get("687616064640516101") // Replace with known channel ID
-    // generalChannel.send("Hello, world! We meet again.")
-    // List servers the bot is connected to
-    console.log("Servers:")
-    client.guilds.cache.forEach((guild) => {
-        console.log(" - " + guild.name)
-        // List all channels
-        // guild.channels.cache.forEach((channel) => {
-        //     console.log(` -- ${channel.name} (${channel.type}) - ${channel.id}`)
-        // })
-    })
+    // console.log("Servers:")
+    // // client.guilds.cache.forEach((guild) => {
+    // //     console.log(" - " + guild.name)
+    // // })
 });
 
 client.on('reconnecting', () => {
@@ -44,6 +52,7 @@ client.on('reconnecting', () => {
 
 client.on('disconnect', () => {
     console.log('Disconnected!');
+	process.exit(1); //exit node.js with an error
 });
 
 
