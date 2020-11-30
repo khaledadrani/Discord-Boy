@@ -37,8 +37,8 @@ What I want to do is:
 
 ## Updates
 
-- 10/29/2020: Successfully deployed the bot in Heroku
-- 11/8/2020: I'm still experimenting with a python notebook. I'm still novice in NLP and Keras.
+10/29/2020: Successfully deployed the bot in Heroku
+11/8/2020: I'm still experimenting with a python notebook. I'm still novice in NLP and Keras.
 
 ## Quick start
 
