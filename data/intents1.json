@@ -1,0 +1,69 @@
+{"intents": [
+    {"tag": "greeting",
+     "patterns": ["Hi", "How are you", "Is anyone there?", "Hello", "Hey","Good day", "Whats up"],
+     "responses": ["Hello!", "Good to see you again!", "Hi there, how can I help?"],
+     "context_set": ""
+    },
+    {"tag": "goodbye",
+     "patterns": ["cya", "See you later", "Goodbye", "I am Leaving", "Have a Good day","bye"],
+     "responses": ["Sad to see you go..", "Talk to you later", "Goodbye!"],
+     "context_set": ""
+    },
+    {"tag": "thanks",
+        "patterns": ["Thanks", "Thank you", "That's helpful"],
+        "responses": ["Happy to help!", "Any time!", "My pleasure"]
+    },
+    {"tag": "hours",
+    "patterns": ["What hours are you open?", "What are your hours?", "When are you open?" ],
+    "responses": ["We're always active!", "We try our best toe be always active."]
+    },
+    {"tag": "noanswer",
+    "patterns": [],
+    "responses": ["Sorry, can't understand you", "Please give me more info", "Not sure I understand"],
+    "context": [""]
+    },
+    {"tag": "options",
+    "patterns": ["How you could help me?", "What you can do?", "What help you provide?", "How you can be helpful?", "What support is offered"],
+    "responses": ["I can guide you through the ENICarthage Press Discord Server.", "I can help you with anything related to ENICarthage Press."],
+    "context": [""]
+    },
+    {"tag": "present",
+        "patterns": ["What is Enicarthage Press?", 
+            "Can you please introduce me to ENICarthage Press?", 
+            "What is Enicar press?", 
+            "Tell me about this club.", 
+            "Present Enicar press to me.",
+            "I need to know what this club is about."],
+        "responses": ["It began first as an idea, then it blossomed into something beautiful. Far beyond any ordinary club.", 
+            "Enicarthage Press is apparently a club for media, journalism, writing and arts but fundamentally a club for every future engineer to unleash their potential by nurturing their motivation and guiding their curiosity.",
+        "Some would argue that a Press club would not fit engineers. But this opinion is wrong indeed. Engineers must communicate, speak, explain and argue as best as they can. Engineers should empower their creativity in order to grasp success in the future."],
+        "context": [""]
+    },
+    {"tag": "mission",
+        "patterns": ["What is the objective of the club?", "What is your objective?", "Do you have a goal?", "What is your mission?"],
+        "responses": ["Covering everything with dynamism and benevolence in order to propagate a high quality content , remains Press ENICarthage’s success generator.", 
+            "Getting out of grids And pushing Press participants to discover the hidden potentials is ,indeed, Press ENICarthage’s framework .",
+        "Because it is an inspirational club, the relational and motivational component is and will always be its main target."
+        ],
+        "context": [""]
+    },
+    {"tag": "activities",
+        "patterns": ["What do you do?", "What are the activites of ENICarthage Press?", "Tell me about your activites?", "How can the club be helpful to me?", "What activities are offered"],
+        "responses": ["We have Writing, Podcasts, Graphic Design, Debates, Presentations, courses and even playing games like Among Us!" 
+            ],
+        "context": [""]
+        },
+        {"tag": "history",
+            "patterns": ["How did this club come to be?", "Tell me about the history of the club?", "Tell me the story of the club"],
+            "responses": ["The club began in october 2018 where the two co-founders Ahmed Badri and Khaled Adrani met in a certain event. The beginning was so difficult and challenging, they had no concrete resources. They had to create their first editions of the Press Magazine in pdf format and just share it on Facebook. Many of the starting members abandoned the project. Others would join but then leave quickly."
+            ],
+            "context": [""]
+        },
+        {"tag": "artificial intelligence",
+            "patterns": ["What is AI?", "Tell me about the history of the club?", "Tell me the story of the club"],
+            "responses": ["The club began in october 2018 where the two co-founders Ahmed Badri and Khaled Adrani met in a certain event. The beginning was so difficult and challenging, they had no concrete resources. They had to create their first editions of the Press Magazine in pdf format and just share it on Facebook. Many of the starting members abandoned the project. Others would join but then leave quickly."
+            ],
+            "context": [""]
+        }
+]
+}
