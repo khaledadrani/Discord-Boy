@@ -1,32 +1,26 @@
 {
   "name": "discord-boy",
-  "version": "1.1.0",
-  "description": "let's make our discord chat bot actually work!",
-  "main": "index.js",
+  "version": "2.0.0",
+  "description": "Personal Discord bot, revived 2026 on discord.js v14.",
+  "main": "src/index.js",
+  "private": true,
+  "engines": {
+    "node": ">=22.9"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/bot.js",
-    "dev": "nodemon ./src/bot.js"
+    "start": "node --env-file-if-exists=.env src/index.js",
+    "dev": "node --watch --env-file-if-exists=.env src/index.js",
+    "deploy-commands": "node --env-file-if-exists=.env src/deploy-commands.js",
+    "test": "node --test 'tests/**/*.test.js'",
+    "check": "node --check src/index.js && node --test 'tests/**/*.test.js'"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KhaledAdrani1997/Discord-Boy.git"
+    "url": "git+https://github.com/khaledadrani/Discord-Boy.git"
   },
-  "keywords": [
-    "javascript",
-    "node",
-    "nodejs",
-    "chatbot",
-    "discord"
-  ],
   "author": "Khaled Adrani",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/KhaledAdrani1997/Discord-Boy/issues"
-  },
-  "homepage": "https://github.com/KhaledAdrani1997/Discord-Boy#readme",
   "dependencies": {
-    "discord.js": "^12.4.1",
-    "dotenv": "^8.2.0"
+    "discord.js": "^14.27.0"
   }
 }

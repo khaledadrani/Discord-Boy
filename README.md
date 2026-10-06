@@ -1,105 +1,65 @@
-# Discord Boy: A chat bot for ENICarthage Press Discord Server
+# Discord Boy
 
-This repository started out as a repository for  Enicarthage Press Discord Server and possibly other technical stuff.
-The chat bot is just a start.
+A personal Discord bot. It started in 2019 as the chat bot for the ENICarthage Press club server and was revived in 2026 on discord.js v14. See [History](#history).
 
+**Status (2026-10-06):** phase 1 of the [roadmap](#roadmap). The 2020 commands are ported to v14 as slash commands. The bot has not been run against a real server yet and has no hosting.
 
-## Table of contents
+## What it does
 
-- [Introduction](#introduction)
-- [Quick start](#quick-start)
-- [Status](#status)
-- [What's included](#whats-included)
-- [Bugs and feature requests](#bugs-and-feature-requests)
-- [Contributing](#contributing)
-- [Creators](#creators)
-- [Thanks](#thanks)
-- [Copyright and license](#copyright-and-license)
+| Thing | How |
+|---|---|
+| `/help` | lists commands (only you see the reply) |
+| `/multiply numbers:2 4 10` | multiplies numbers |
+| `/kick member [reason]` | needs Kick Members |
+| `/ban user [reason]` | needs Ban Members; works on users who already left |
+| `/annonce message` | posts through a webhook; needs Manage Server and `ANNOUNCE_WEBHOOK_URL` |
+| reaction roles | react to one message to get a role, un-react to lose it (`REACTION_ROLES*`) |
+| `hello` | the bot answers `hello friend`, as it has since 2019 |
 
-What I want to do is:
-
-- Add more functionalities
-- Why not implement some AI? or make it a smart chat bot? (if possible)
-- Deploy it to Heroku (DONE)
-
-## Introduction
-I am developing a Chat Bot for ENICarthage Press Club Discord Server. At first, it started as a NodeJS-based project. Since I started to orient myself toward AI, I decided
-that I should add an NLP feature to the simple rule-based bot. As I explored the internet, I realized this project has no limit. 
-
-The bot is already deployed in the Club's server. However, it is pretty much primitive. It needs a lot of work.
-
-What I want to do is:
-
-- Add more rule-based functionalities from Discord.js api
-- Add NLP features
-- Add the ability to answer any general purpose question (why not? I discovered a way to do it!)
-
-
-## Updates
-
-10/29/2020: Successfully deployed the bot in Heroku
-11/8/2020: I'm still experimenting with a python notebook. I'm still novice in NLP and Keras.
+Bot status: playing `( ͡° ͜ʖ ͡°)`.
 
 ## Quick start
 
-(in progress)
+Requires Node 22.9+.
 
-In this part, I'll describe how to develop and test the code.
+1. Go to <https://discord.com/developers/applications>, then New Application, then **Bot**:
+   - **Reset Token** and copy it.
+   - Enable **Message Content Intent** (used only by the `hello` easter egg).
+2. Invite the bot. OAuth2 → URL Generator → scopes `bot` and `applications.commands`. Permissions: Send Messages, Kick Members, Ban Members, Manage Roles. Open the URL.
+3. Configure and run:
 
-### To test it locally
-
-- Clone this repository
-
-- Add an .env file where you will be putting several environment variables like the Bot prefix and the Bot Token.
-
-- You have to add this bot to your own server, You DONT need ANY logins in your site. If you want your bot to be invited with admin use this link and paste it in your browser https://discord.com/api/oauth2/authorize?client_id=YOUR-BOTS-ID&permissions=8&scope=bot
-
-- Run the script `npm run dev`, it should be working.
-
-### To deploy it in Heroku
-
-
-## Status
-
-Heroku, deployed successfully
-
-## What's included
-
-Some text
-
-```text
-folder1/
-└── folder2/
-    ├── folder3/
-    │   ├── file1
-    │   └── file2
-    └── folder4/
-        ├── file3
-        └── file4
+```sh
+cp .env.example .env     # fill in DISCORD_TOKEN, DISCORD_CLIENT_ID, DISCORD_GUILD_ID
+make install
+make deploy-commands     # once, and again whenever a command's options change
+make run                 # or: make dev (auto-restart)
 ```
 
-## Bugs and feature requests
+For reaction roles, the bot's role must sit above the roles it hands out (Server Settings → Roles).
 
-some text
+## Development
 
-## Contributing
+```sh
+make check   # syntax check + unit tests; the bar for "done"
+```
 
-some text
+Layout, conventions and working rules are in [CLAUDE.md](CLAUDE.md).
 
-## Creators
+## Roadmap
 
-**Creator 1**
+1. **Nostalgia revival:** port the 2020 bot to v14. *(current)*
+2. **Personal hub:** a channel per active project. The bot posts commits, CI and tickets, and slash commands query the projects.
+3. **Agent chat front-end:** talk to a local agent (agentnet / Ollama) from Discord.
+4. **Public community:** moderation and onboarding for outside users.
 
-- <https://github.com/KhaledAdrani1997>
+## History
 
-## Thanks
+- **2019-12-15:** created through the GitHub web UI as the bot for the ENICarthage Press Discord server. Node + discord.js v11/12, with a `!` prefix and `hello` → `hello friend`.
+- **2020-05-29:** "vision and plans": *Why not implement some AI? or make it a smart chat bot?*
+- **2020-10-29:** rewritten in one night. Added `!help`, `!kick`, `!ban`, `!multiply`, `!annonce` (webhook) and a reaction-roles stub, then deployed to Heroku.
+- **2020-11-08:** *"I'm still experimenting with a python notebook. I'm still novice in NLP and Keras."*
+- **2020-11-30:** an NLP intents file was committed (greeting, goodbye, "I can guide you through the ENICarthage Press Discord Server") and moved off master 9 minutes later.
+- **2021–2024:** dormant, apart from Dependabot bumps.
+- **2026-10-06:** revived on discord.js v14 with slash commands. The 2020 reaction roles never worked: they matched `':thumbsup:'` instead of `👍` and called `member.role` instead of `member.roles`. They work now.
 
-Some Text
-
-## Copyright and license
-
-Code released under the [MIT License](https://reponame/blob/master/LICENSE).
-
-Enjoy :some emoji:
-
-
+> The git history before 2020-10-29 contains real bot and webhook tokens. They must be considered compromised and revoked. Never commit `.env`.
